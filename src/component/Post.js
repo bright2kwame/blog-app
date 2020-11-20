@@ -15,7 +15,7 @@ function PostComponent() {
         posts : []
     })
 
-    //MARK: list of 
+    //MARK: list of post items
     const postItems = state.posts.map((item, index) =>
          <a key={index.toString()} className="list-group-item list-group-item-action">
                 <div className="d-flex w-100 justify-content-between">
@@ -34,6 +34,7 @@ function PostComponent() {
          [event.target.name]: event.target.value
         });
     }
+    
 
     //MARK: handle post
     function postArticle(event){
