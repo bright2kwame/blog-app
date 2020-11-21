@@ -4,13 +4,14 @@ import LoginComponent from './component/Login'
 import NotFoundComponent from './component/NotFound'
 import PostComponent from './component/Post';
 import RegisterComponent from './component/Register'
+import AllPostsComponent from './component/AllPosts';
+
 
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
-
 
 
 function App() {
@@ -22,6 +23,9 @@ function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/posts">
+            <AllPostsComponent posts = {[]} />
+          </Route>
+          <Route path="/new_post">
             <PostComponent />
           </Route>
           <Route path="/register">

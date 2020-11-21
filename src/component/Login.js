@@ -1,71 +1,90 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import '../css/Home.css'
+import '../css/Login.css'
 import {
-  Link
+  useHistory, Link
 } from "react-router-dom";
 
 function LoginComponent() {
+    const history = useHistory()
   
-    const [state, setState] = React.useState({
-        email: "",
+    //MARK: email state
+    const [emailState, setEmail] = React.useState({
+        email: ""
+    })
+
+    //MARK: password state
+    const [passwordState, setPassword] = React.useState({
         password: "",
-        emailError: ""
     })
 
     //MARK: handle input change
-    function handleInputChange(event){
-      setState({
-        ...state,
+    function handleEmailInputChange(event){
+      setEmail({
          [event.target.name]: event.target.value
         });
-        console.log("Logging Email: " + state.email +  " Password: " + state.password)
+        console.log("Logging Email: " + emailState.email +  " Password: " + passwordState.password)
     }
+
+     //MARK: handle password input change
+     function handlePasswordInputChange(event){
+        setPassword({
+           [event.target.name]: event.target.value
+          });
+          console.log("Logging Email: " + emailState.email +  " Password: " + passwordState.password)
+      }
 
     //MARK: handel the login here
     function handleLogin(event){
-        let validEmail = state.email;
-        let validPassword = state.password;
+        let validEmail = emailState.email;
+        let validPassword = passwordState.password;
         
         //MARK: no email
-        if (validEmail.length === 0){
-            setState({
-                ...state,
-                 "emailError": "Invalid Email"
-                });
-        } else 
+        if (validEmail === "" || validPassword === ""){
+            alert("Provide valid login details")
+            return 
+        } 
+        
         //MARK: has valid email and valid password 
         if (validEmail.length != 0 && validPassword.length != 0){
-            setState({
-                ...state,
-                 "emailError": ""
-                });
-
-            //MARK: post to server
-            alert("Logging Email: " + state.email +  " Password: " + state.password);  
-           
-            setState({
-                "email" : "",
-                "password" : "",
-                 "emailError": ""
-                });
-            
+            history.push("/new_post");
         }
-
     }
 
   return (
-    <div className="home-wrapper">
-        <form action = {handleLogin}>
-            <div>
-                <label className="text-danger">{state.emailError}</label>   
-                <input name="email" required value={state.email} onChange={handleInputChange} className="form-control" type="email" placeholder="Enter email"/>
+    <div className ="content-wrapper container text-center">
+      <div className="login-form">
+      <form>
+            <h3 className="text-center">Log in</h3>       
+            <div className="form-group">
+                <input 
+                    name="email"
+                    type="email" 
+                    value = {emailState.email}
+                    onChange = {handleEmailInputChange}
+                    className="form-control" 
+                    placeholder="Email Address" required="required"/>
             </div>
-            <div>
-                <input  name="password" required  value={state.password} onChange={handleInputChange} className="form-control" type="password" placeholder="Enter password"/>
+            <div className="form-group">
+                <input 
+                    name="password"
+                    type="password" 
+                    value = {passwordState.password}
+                    onChange = {handlePasswordInputChange}
+                    className="form-control" 
+                    placeholder="Password" 
+                    required="required"/>
             </div>
-            <button onClick = {handleLogin} className= "btn btn-primary">Login</button>
+            <div className="form-group">
+                <button type= "submit" onClick = {handleLogin} className="btn btn-primary btn-block">Log in</button>
+            </div>
+            <div className="clearfix">
+                <label className="float-left form-check-label"><input type="checkbox"/> Remember me</label>
+                <Link className="float-right">Forgot Password?</Link>
+            </div>        
         </form>
+       <p className="text-center"> New Here ? <Link to="/register" >Create an Account</Link></p>
+    </div>
     </div>
   );
 }

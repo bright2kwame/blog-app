@@ -1,0 +1,1 @@
+const newPost = "/new_post"
